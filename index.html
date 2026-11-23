@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'">
+  <title>Machining quote calculator for job shops · Open MSME</title>
+  <meta name="description" content="Turn material, machine time and setup into a defensible per-piece price with a transparent, printable cost breakdown — free for machine shops in India and the Philippines.">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="Machining quote calculator for job shops · Open MSME">
+  <meta property="og:description" content="Price a machined part from material, machine rate, cycle and setup time — with a transparent breakdown you can print as a quote.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/accent.css">
+  <script src="assets/theme-init.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">
+        <span class="dot"></span><b>Open MSME</b><span class="tag">machining quote</span>
+      </a>
+      <span class="sp"></span>
+      <a class="home" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a>
+      <button class="themer" data-themer type="button">Theme</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Manufacturing · India &amp; Philippines</div>
+        <h1>Machining quote calculator for job shops</h1>
+        <p class="lede">Turn material, machine time and setup into a defensible per-piece price — with a transparent breakdown you can print as a quote.</p>
+        <div class="who">
+          <span class="pill">Machine shops &amp; fabricators</span>
+          <span class="pill">Transparent quoting</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="cols calc">
+        <section class="card">
+          <h2>Inputs</h2>
+
+          <div class="field">
+            <label>Currency</label>
+            <div class="seg" role="group" aria-label="Currency">
+              <button type="button" data-cur="INR" aria-pressed="true">₹ INR</button>
+              <button type="button" data-cur="PHP" aria-pressed="false">₱ PHP</button>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="material">Material cost per piece</label>
+              <div class="inp has-pre">
+                <span class="pre cursym">₹</span>
+                <input type="number" id="material" min="0" step="0.01" inputmode="decimal" value="40">
+              </div>
+            </div>
+            <div class="field">
+              <label for="rate">Machine rate per hour</label>
+              <div class="inp has-pre">
+                <span class="pre cursym">₹</span>
+                <input type="number" id="rate" min="0" step="1" inputmode="decimal" value="600">
+              </div>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="cycle">Cycle time per piece</label>
+              <div class="inp has-suf">
+                <input type="number" id="cycle" min="0" step="any" inputmode="decimal" value="4">
+                <span class="suf">min</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="setup">Setup time <span class="hint">one-time</span></label>
+              <div class="inp has-suf">
+                <input type="number" id="setup" min="0" step="any" inputmode="decimal" value="30">
+                <span class="suf">min</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="qty">Quantity <span class="hint">pieces</span></label>
+              <div class="inp">
+                <input type="number" id="qty" min="1" step="1" inputmode="numeric" value="100">
+              </div>
+            </div>
+            <div class="field">
+              <label for="scrap">Scrap / rejection %</label>
+              <div class="inp has-suf">
+                <input type="number" id="scrap" min="0" step="any" inputmode="decimal" value="3">
+                <span class="suf">%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="overhead">Overhead %</label>
+              <div class="inp has-suf">
+                <input type="number" id="overhead" min="0" step="any" inputmode="decimal" value="10">
+                <span class="suf">%</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="margin">Margin %</label>
+              <div class="inp has-suf">
+                <input type="number" id="margin" min="0" step="any" inputmode="decimal" value="20">
+                <span class="suf">%</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card sticky">
+          <h2>Result</h2>
+          <div class="result-primary">
+            <div class="k">Price per piece</div>
+            <div class="v" id="price-main">—</div>
+            <div class="sub" id="price-sub">—</div>
+          </div>
+
+          <table class="breakdown">
+            <tbody>
+              <tr><td>Material</td><td class="num" id="r-material">—</td></tr>
+              <tr><td>Machine time</td><td class="num" id="r-machine">—</td></tr>
+              <tr><td>Setup (amortised over qty)</td><td class="num" id="r-setup">—</td></tr>
+              <tr><td>Overhead</td><td class="num" id="r-overhead">—</td></tr>
+              <tr><td>Scrap uplift</td><td class="num" id="r-scrap">—</td></tr>
+              <tr><td>Margin</td><td class="num" id="r-margin">—</td></tr>
+              <tr class="total"><td>Price per piece</td><td class="num" id="r-price">—</td></tr>
+              <tr><td id="r-lot-label">Lot total</td><td class="num" id="r-lot">—</td></tr>
+            </tbody>
+          </table>
+
+          <div class="btnrow">
+            <button class="btn ghost" id="print" type="button">Print / Save PDF</button>
+            <button class="btn ghost" id="reset" type="button">Reset</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="prose">
+        <h2>How it works</h2>
+        <p>The calculator prices a machined part the way a job shop builds up a cost sheet — one rung at a time, so every rupee or peso in the quote is traceable.</p>
+        <p><strong>Material</strong> is the raw stock for one piece. <strong>Machine time</strong> is your machine rate per hour multiplied by the cycle time, converted from minutes to hours (<code>rate × cycle ÷ 60</code>). <strong>Setup</strong> is a one-time cost — rate times setup minutes — spread evenly across the whole lot (<code>÷ quantity</code>), so a bigger order carries less setup per piece.</p>
+        <p>Those three make the <strong>works cost</strong>. <strong>Overhead</strong> is added as a percentage of works cost to cover power, consumables, tooling wear and shop admin, giving the <strong>factory cost</strong>. A <strong>scrap uplift</strong> then grosses the cost up — dividing by <code>(1 − scrap%)</code> — so the pieces you ship pay for the ones you reject. Finally <strong>margin</strong> is added on cost, and the per-piece price is multiplied by quantity for the <strong>lot total</strong>.</p>
+
+        <details class="assumptions">
+          <summary>Assumptions &amp; rates</summary>
+          <p>Every rate is your own input — there is no fixed table of prices.</p>
+          <p>Setup is a one-time cost <strong>amortised across the quantity</strong>: the setup charge is divided by the number of pieces, so it shrinks per piece as the lot grows. A blank or zero quantity is treated as a lot of one for this step, so the cost never divides by zero.</p>
+          <p>The machine rate is an all-in hourly rate for the machine and operator. Cycle and setup times are entered in minutes and converted to hours by dividing by 60.</p>
+          <p>The <strong>scrap uplift grosses the cost up</strong> by dividing by <code>(1 − scrap% ÷ 100)</code>, so the accepted pieces cover the cost of the rejects. A scrap figure of 100% or more is capped at 99.9% so the price stays finite.</p>
+          <p>Overhead is a percentage of works cost (material + machine + setup). <strong>Margin is applied on cost</strong> — the scrap-adjusted cost — not back-calculated from a selling price.</p>
+          <p>Amounts are shown in the currency you pick (₹ INR or ₱ PHP). Nothing is converted between currencies; switching currency only changes the symbol and formatting.</p>
+        </details>
+
+        <div class="note">An estimate to speed up quoting — confirm rates and tolerances for your shop.</div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span>Open MSME · open-source tool for MSMEs in India &amp; the Philippines · MIT</span>
+      <span><a href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/ui.js"></script>
+  <script src="assets/calc.js"></script>
+</body>
+</html>
